@@ -1,0 +1,179 @@
+#define LIBRE 0
+#define X 1
+#define O -1 
+#define DIM 3
+#define CIERTO 1
+#define FALSO 0 
+
+
+short tablero[3][3];
+
+void inicializacion_tablero () {	
+{
+int i, j;
+for (i = 0; i < 3; i++)
+for (j = 0; j < 3; j++)
+tablero[i][j] = LIBRE;
+}
+
+void print_codigo(short valor)
+{
+switch(valor)
+{
+case X:
+printf(" X ");
+break;
+case 0:
+printf(" 0 ");
+break;
+case LIBRE:
+printf(" ");
+break;
+}
+}
+}
+
+void print_linea(int i)
+{
+int j;
+printf("%d |", i);
+for (j=0; j < 3; j++)
+{
+print_codigo(tablero[i][j]);
+if (j < 2)
+printf(" | ");
+else
+printf("|\n");
+}
+} 
+void escritura_tablero()
+{
+int i;
+system("clear");
+printf("\n");
+printf(" 0 1 2\n");
+printf("-------------\n");
+for (i = 0; i < 3; i++)
+{
+printf("| | | |\n");
+print_linea(i);
+printf("-------------\n");
+}
+printf("\n");
+} 
+tablero[i][j] = simbolo[2];
+int esta_libre(int i, int j)
+{
+if (tablero[i][j] == LIBRE)
+return CIERTO;
+else
+return FALSO;
+}
+int posicion_correcta(int i, int j)
+{
+if (i < 0 || i >= 3 || j < 0 ||j >= 3)
+return FALSO;
+else
+return esta_libre(i, j);
+} 
+
+int main(int argc, char *argv[]) {
+short paso;
+short jugador;
+short simbolo[2] = {X, 0};
+int i, j;
+// inicializacion
+inicializacion_tablero();
+escritura_tablero();
+jugador = 0;
+paso = 0;
+printf ("El jugador que empieza :");
+print_codigo(simbolo[jugador]);
+// estructura repetitiva del juego
+while (paso < 3 * 3)
+{ 
+printf ("\n El jugador que juega : ");
+print_codigo(simbolo[jugador]);
+// lectura de la posicion de entrada
+printf("\n Posicion: ");
+scanf("%d%d", &i, &j);
+if (posicion_correcta(i, j) == CIERTO)
+{
+// la posicion esta correcta (indices correctos y posicion libre en tablero)
+tablero[i][j] = simbolo[jugador];
+escritura_tablero();
+// se verifica si hay ganador
+if (hay_ganador(i,j) == CIERTO)
+{
+printf( "El ganador es:");
+print_codigo(simbolo[jugador]);
+break;
+}
+else
+{
+// el partido continua
+jugador = 1 -jugador; // el jugador cambia
+paso++; // un paso mas
+escritura_tablero();
+}
+}
+else
+{
+// la posicion no esta correcta
+printf("La posicion no esta correcta.\n\n");
+continue;
+}
+} 
+printf("\n");
+if (paso == 3 * 3)
+if (paso == 3 * 3)
+// fueron DIM*DIM pasos jugados sin ganar
+printf( " El gato !\n");
+exit(0);
+}
+ 
+int hay_ganador(int i, int j)
+{
+int k, suma;
+// si la linea esta completa con el mismo simbolo
+for (suma= 0, k = 0; k < DIM; k++)
+suma += tablero[i][k];
+if (suma == 3 * tablero[i][j])
+{
+printf("Linea completa!\n");
+return CIERTO;
+}
+// si la columna esta completa con el mismo simbolo
+for (suma= 0, k = 0; k < D3; k++)
+suma += tablero[k][j];
+if (suma == 3 * tablero[i][j])
+{
+printf("Columna completa!\n");
+return CIERTO;
+}
+if (i == j)
+{
+// (i,j) es sobre la diagonal principal
+// verificar esta diagonal
+for (suma= 0, k = 0; k < DIM; k++)
+suma += tablero[k][k];
+if (suma == 3 * tablero[i][j])
+{
+printf("Diagonal principal completa!\n");
+return CIERTO;
+}
+}
+if (i+j+1 == 3)
+{
+// (i,j) es sobre la diagonal secundaria
+// verificar esta diagonal
+for (suma= 0, k = 0; k < 3; k++)
+suma += tablero[k][3-1-k];
+if (suma == 3 * tablero[i][j]) 
+{
+printf("Diagonal secundaria completa!\n");
+return CIERTO;
+}
+}
+return FALSO;
+}
